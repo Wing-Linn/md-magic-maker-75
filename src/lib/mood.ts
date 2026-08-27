@@ -20,7 +20,7 @@ export function toDateKey(d: Date): string {
 
 export function parseDateKey(key: string): Date {
   const [y, m, d] = key.split("-").map(Number);
-  return new Date(y, (m ?? 1) - 1, d ?? 1);
+  return new Date(y ?? 1970, (m ?? 1) - 1, d ?? 1);
 }
 
 /** Monday as the first day of the week. */
@@ -175,8 +175,8 @@ export function computeWeekStats(records: MoodRecord[]): WeekStats {
     return { average: null, highest: null, lowest: null, recordedDays: 0, spread: null };
   }
   const sorted = [...records].sort((a, b) => a.mood - b.mood);
-  const lowest = sorted[0];
-  const highest = sorted[sorted.length - 1];
+  const lowest = sorted[0]!;
+  const highest = sorted[sorted.length - 1]!;
   const average = records.reduce((sum, r) => sum + r.mood, 0) / records.length;
   return {
     average: Math.round(average * 10) / 10,
